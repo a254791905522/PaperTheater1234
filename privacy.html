@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#2a1810">
+    <title>Privacy Notice — PaperTheater</title>
+    <meta name="description" content="Privacy notice for PaperTheater. The App Store label states the developer does not collect data from this paper-theater puzzle. Progress and stats stay on your device.">
+    <style>
+        :root {
+            --curtain: #5c1f28;
+            --curtain-deep: #3a1218;
+            --stage: #2a1810;
+            --stage-2: #3d2a1c;
+            --paper: #f5ead8;
+            --paper-2: #e8d9c0;
+            --ink: #1f1610;
+            --muted: #6b5d4f;
+            --soft: rgba(245, 234, 216, 0.82);
+            --spot: #ffb84d;
+            --spot-glow: rgba(255, 184, 77, 0.28);
+            --line: rgba(245, 234, 216, 0.14);
+            --shadow: 0 28px 56px rgba(0, 0, 0, 0.38);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+            color: var(--paper);
+            background: var(--stage);
+            min-height: 100vh;
+            background-image:
+                radial-gradient(ellipse 50% 38% at 50% 0%, var(--spot-glow), transparent 58%),
+                radial-gradient(ellipse 35% 28% at 0% 100%, rgba(92, 31, 40, 0.35), transparent 55%);
+        }
+
+        a:focus-visible, .btn:focus-visible {
+            outline: 2px solid var(--spot);
+            outline-offset: 3px;
+        }
+
+        .wrap {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 28px 22px 72px;
+        }
+
+        .bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .brand svg { width: 48px; height: 48px; flex: none; }
+
+        .brand strong {
+            display: block;
+            font-family: "Avenir Next Condensed", sans-serif;
+            font-weight: 700;
+            font-size: clamp(1rem, 2.2vw, 1.32rem);
+        }
+
+        .brand small {
+            display: block;
+            margin-top: 2px;
+            color: var(--spot);
+            font-family: "Avenir Next", sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+        .bar nav {
+            display: flex;
+            gap: 22px;
+            font-family: "Avenir Next", sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .bar nav a { color: rgba(245, 234, 216, 0.65); text-decoration: none; }
+        .bar nav a:hover, .bar nav a[aria-current="page"] { color: var(--paper); }
+
+        .title-block {
+            text-align: center;
+            padding: 32px 24px 28px;
+            margin-bottom: 24px;
+            background: linear-gradient(180deg, var(--curtain-deep), var(--stage-2));
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .title-block::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 15%;
+            right: 15%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--spot), transparent);
+        }
+
+        .title-block .dated {
+            font-family: "Avenir Next", sans-serif;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--spot);
+            margin-bottom: 14px;
+        }
+
+        h1 {
+            font-family: "Avenir Next Condensed", sans-serif;
+            font-weight: 700;
+            font-size: clamp(2.2rem, 5vw, 3.4rem);
+            line-height: 0.95;
+            letter-spacing: -0.02em;
+            margin-bottom: 14px;
+        }
+
+        .lead {
+            color: var(--soft);
+            font-size: 1.06rem;
+            line-height: 1.72;
+            max-width: 36rem;
+            margin: 0 auto;
+        }
+
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        .badges span {
+            font-family: "Avenir Next", sans-serif;
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 8px 14px;
+            border-radius: 4px;
+            background: var(--paper);
+            color: var(--ink);
+        }
+
+        .badges span.highlight {
+            background: linear-gradient(180deg, #ffd98a, var(--spot));
+        }
+
+        .toc {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .toc a {
+            font-family: "Avenir Next", sans-serif;
+            text-decoration: none;
+            color: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            padding: 7px 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .toc a:hover { border-color: var(--spot); color: var(--spot); }
+
+        .program {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .act {
+            display: grid;
+            grid-template-columns: minmax(100px, 140px) 1fr;
+            background: var(--paper);
+            color: var(--ink);
+            border-top: 1px solid rgba(31, 22, 16, 0.08);
+        }
+
+        .act:first-child { border-top: 0; }
+
+        .act:nth-child(even) { background: var(--paper-2); }
+
+        .act-label {
+            padding: 24px 16px 24px 20px;
+            border-right: 2px solid var(--curtain);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-end;
+            text-align: right;
+        }
+
+        .act-label em {
+            font-style: normal;
+            font-family: "Avenir Next Condensed", sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--curtain);
+            line-height: 1;
+        }
+
+        .act-label span {
+            font-family: "Avenir Next", sans-serif;
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 6px;
+        }
+
+        .act-body {
+            padding: 24px 24px 26px 20px;
+        }
+
+        .act-body h2 {
+            font-family: "Avenir Next Condensed", sans-serif;
+            font-size: 1.55rem;
+            letter-spacing: -0.02em;
+            margin-bottom: 10px;
+            color: var(--ink);
+        }
+
+        .act-body p, .act-body li {
+            color: #4a4038;
+            line-height: 1.72;
+            font-size: 1.02rem;
+        }
+
+        .act-body p + p { margin-top: 10px; }
+
+        .act-body ul {
+            margin: 12px 0 0 1.15rem;
+        }
+
+        .act-body li + li { margin-top: 6px; }
+
+        .callout {
+            margin-top: 12px;
+            padding: 12px 14px;
+            border-radius: 4px;
+            border-left: 4px solid var(--spot);
+            background: rgba(255, 184, 77, 0.2);
+            color: #5c4a28;
+            font-weight: 600;
+            line-height: 1.55;
+            font-size: 0.98rem;
+        }
+
+        .finale {
+            margin-top: 20px;
+            background: linear-gradient(105deg, var(--curtain-deep), var(--curtain));
+            border-radius: 6px;
+            padding: 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .finale p {
+            line-height: 1.58;
+            max-width: 34rem;
+            color: rgba(245, 234, 216, 0.95);
+            font-size: 1rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-family: "Avenir Next", sans-serif;
+            font-weight: 700;
+            border-radius: 6px;
+            padding: 12px 18px;
+            background: var(--paper);
+            color: var(--ink);
+            white-space: nowrap;
+        }
+
+        footer {
+            margin-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            color: rgba(245, 234, 216, 0.58);
+            font-family: "Avenir Next", sans-serif;
+            font-size: 0.86rem;
+        }
+
+        footer a { color: var(--spot); text-decoration: none; font-weight: 700; }
+        footer a:hover { text-decoration: underline; }
+
+        @media (max-width: 720px) {
+            .act { grid-template-columns: 1fr; }
+            .act-label {
+                flex-direction: row;
+                align-items: baseline;
+                justify-content: flex-start;
+                gap: 10px;
+                text-align: left;
+                border-right: 0;
+                border-bottom: 2px solid var(--curtain);
+                padding: 16px 18px 12px;
+            }
+            .act-label span { margin-top: 0; }
+            .act-body { padding: 18px 18px 22px; }
+            .finale .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <header class="bar">
+            <a class="brand" href="index.html">
+                <svg viewBox="0 0 48 48" aria-hidden="true">
+                    <rect width="48" height="48" rx="6" fill="#3d2a1c"/>
+                    <path fill="#5c1f28" d="M4 8h40v6H4z"/>
+                    <rect x="8" y="16" width="32" height="22" rx="2" fill="#f5ead8"/>
+                    <ellipse cx="24" cy="14" rx="10" ry="4" fill="#ffb84d" opacity="0.5"/>
+                    <path fill="#1a120c" opacity="0.35" d="M14 28c4-6 8-8 10-8s6 2 10 8H14z"/>
+                    <circle cx="38" cy="34" r="5" fill="#e8d9c0" stroke="#6b5d4f" stroke-width="1.2"/>
+                    <path stroke="#6b5d4f" stroke-width="1" d="M38 31v6M35 34h6"/>
+                </svg>
+                <span>
+                    <strong>PaperTheater</strong>
+                    <small>Cycle &amp; match</small>
+                </span>
+            </a>
+            <nav>
+                <a href="index.html">The game</a>
+                <a href="privacy.html" aria-current="page">Privacy</a>
+            </nav>
+        </header>
+
+        <main>
+            <header class="title-block">
+                <p class="dated">Effective 8 October 2026</p>
+                <h1>Privacy notice for the paper stage</h1>
+                <p class="lead">
+                    PaperTheater is a free casual game about cycling paper layers to match a target shadow. This notice describes how information is handled around that experience. It is written for players and guardians; it is not legal advice for your jurisdiction.
+                </p>
+                <div class="badges">
+                    <span class="highlight">Data not collected (App Store)</span>
+                    <span>No account required</span>
+                    <span>Rated 4+</span>
+                </div>
+            </header>
+
+            <nav class="toc" aria-label="Notice sections">
+                <a href="#scope">Scope</a>
+                <a href="#label">Store label</a>
+                <a href="#device">On your device</a>
+                <a href="#gameplay">Dial &amp; stats</a>
+                <a href="#permissions">Permissions</a>
+                <a href="#apple">Apple platform</a>
+                <a href="#children">Young players</a>
+                <a href="#web">These pages</a>
+                <a href="#changes">Updates</a>
+            </nav>
+
+            <div class="program">
+                <section class="act" id="scope">
+                    <div class="act-label">
+                        <em>I</em>
+                        <span>Prologue</span>
+                    </div>
+                    <div class="act-body">
+                        <h2>What this notice covers</h2>
+                        <p>
+                            This text applies to the PaperTheater app distributed on the App Store and to the static web pages bundled with it: the game introduction and this privacy notice. It describes the product, not a personal blog or unrelated website.
+                        </p>
+                        <p>
+                            For help, use the support channels linked from the App Store listing. Your Apple ID, the store checkout flow, Screen Time, and any backup you enable are governed by Apple’s own terms and privacy policy.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="act" id="label">
+                    <div class="act-label">
+                        <em>II</em>
+                        <span>Label</span>
+                    </div>
+                    <div class="act-body">
+                        <h2>App Store privacy label</h2>
+                        <p>
+                            Apple’s privacy section for PaperTheater is categorized as “Data Not Collected.” The developer indicates that the app does not collect data from the app. This notice does not describe hidden analytics, advertising identifiers, or third-party tracking beyond that public label.
+                        </p>
+                        <p>
+                            Apple notes that privacy practices can vary with features or age. If the live listing changes, treat the label on the product page as authoritative. This notice will be revised if the game’s practices no longer match what is written here.
+                        </p>
+                        <p class="callout">Trust the store label first. This page does not claim a secret server log behind it.</p>
+                    </div>
+                </section>
+
+                <section class="act" id="device">
+                    <div class="act-label">
+                        <em>III</em>
+                        <span>Local</span>
+                    </div>
+                    <div class="act-body">
+                        <h2>Scene state stays local</h2>
+                        <p>
+                            To run a puzzle, the app must remember ordinary facts on your device: which act and level you reached, how each layer is positioned, dial-turn counts for star ratings, and lifetime counters such as Scenes Recreated, Perfect Arrangements, and Levels Cleared.
+                        </p>
+                        <p>
+                            The store label does not present that information as data the developer collects from you. Removing PaperTheater deletes the app’s local storage with it. If you use iCloud Backup or similar Apple backup features, Apple may include app data according to your account settings—the listing does not describe a separate publisher cloud login for this title.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="act" id="gameplay">
+                    <div class="act-label">
+                        <em>IV</em>
+                        <span>Play</span>
+                    </div>
+                    <div class="act-body">
+                        <h2>Dial taps and statistics</h2>
+                        <p>
+                            Gameplay is one tap per dial advance. There are no timers in the listing’s description, and progress is measured by how efficiently you match each target shadow. Those interactions update the local scene; they are not described as messages sent to a publisher backend.
+                        </p>
+                        <p>
+                            The App Store lists the game as free. This notice does not describe in-app currency, a publisher wallet, or stored payment details inside PaperTheater. Any purchase or download prompt shown by Apple is Apple’s transaction layer.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="act" id="permissions">
+                    <div class="act-label">
+                        <em>V</em>
+                        <span>Access</span>
+                    </div>
+                    <div class="act-body">
+                        <h2>Accounts, contacts, and sensors</h2>
+                        <p>
+                            You can open the miniature stage without registering a player profile. The listing does not require an email address, phone number, legal name, contact list, photo library, camera, microphone, or precise location to cycle layers and match shadows.
+                        </p>
+                        <p>
+                            If a future version asks for optional permissions, the system dialog on your device will name them. Read that prompt before allowing access.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="act" id="apple">
+                    <div class="act-label">
+                        <em>VI</em>
+                        <span>Store</span>
+                    </div>
+                    <div class="act-body">
+                        <h2>Distribution through Apple</h2>
+                        <p>
+                            PaperTheater is installed from the App Store. Updates, refunds, and regional availability follow Apple’s processes. The listing is in English, rated 4+, requires iOS 15 or later, is designed for iPad, and is about 101 MB. It also references iPhone, iPod touch, Mac with Apple silicon, and Apple Vision; the Mac line is marked not verified for macOS.
+                        </p>
+                        <p>
+                            Information Apple already holds about your Apple ID is not duplicated into a publisher profile simply because you install this game.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="act" id="children">
+                    <div class="act-label">
+                        <em>VII</em>
+                        <span>Family</span>
+                    </div>
+                    <div class="act-body">
+                        <h2>Children and the 4+ rating</h2>
+                        <p>
+                            The store age rating is 4+. A parent or guardian decides whether to install the app. Apple’s Screen Time, Ask to Buy, and Family Sharing can restrict downloads when those controls are enabled.
+                        </p>
+                        <p>
+                            Play does not begin with a sign-up form. If you believe a child submitted personal information to the publisher outside normal gameplay, contact support through the App Store listing and include only what is needed to identify the request.
+                        </p>
+                    </div>
+                </section>
+
+                <section class="act" id="web">
+                    <div class="act-label">
+                        <em>VIII</em>
+                        <span>Site</span>
+                    </div>
+                    <div class="act-body">
+                        <h2>These static pages</h2>
+                        <p>
+                            The introduction and this notice are plain HTML. They include no comment form, newsletter signup, analytics embed, or payment field. Typography uses fonts already on your device, so loading a page does not fetch typefaces from a third-party host.
+                        </p>
+                        <p>
+                            The only outbound product link on both pages is the App Store listing for PaperTheater. There is no link to a personal homepage or unrelated social profile.
+                        </p>
+                        <p>
+                            Depending on where you live, you may have rights to access, correct, or delete personal information. Because the store label states data is not collected from the app, the publisher may have no remote file to export. You may still submit a privacy request via the App Store support options. Do not attach identity documents in your first message unless a reply asks for narrower verification.
+                        </p>
+                        <ul>
+                            <li>Name the app (PaperTheater) and state that the message is about privacy.</li>
+                            <li>Describe the action you want taken.</li>
+                            <li>Keep unrelated personal details out of the opening note.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="act" id="changes">
+                    <div class="act-label">
+                        <em>IX</em>
+                        <span>Epilogue</span>
+                    </div>
+                    <div class="act-body">
+                        <h2>When this notice changes</h2>
+                        <p>
+                            The effective date at the top marks this wording. If a later build introduces collection—for example analytics, ads, or sign-in—the App Store privacy label should be updated to match, and this page will be rewritten accordingly.
+                        </p>
+                        <p>
+                            Continued use after an updated notice is posted means you have had a chance to read the new version on this site or through the store listing’s policy link, whichever applies at that time.
+                        </p>
+                    </div>
+                </section>
+            </div>
+
+            <div class="finale">
+                <p>The live App Store listing, privacy label, and product support for PaperTheater are on Apple’s product page.</p>
+                <a class="btn" href="https://apps.apple.com/us/app/papertheater/id6817269614?uo=4" target="_blank" rel="noopener noreferrer">Download on the App Store</a>
+            </div>
+        </main>
+
+        <footer>
+            <p>© 2026 PaperTheater. Privacy notice for the shadow-matching puzzle.</p>
+            <p><a href="index.html">The game</a> · <a href="https://apps.apple.com/us/app/papertheater/id6817269614?uo=4" target="_blank" rel="noopener noreferrer">App Store</a></p>
+        </footer>
+    </div>
+</body>
+</html>

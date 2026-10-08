@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#2a1810">
+    <title>PaperTheater — Cycle the Layers, Match the Shadow</title>
+    <meta name="description" content="PaperTheater is a free casual puzzle. Turn each paper layer’s dial to cycle its positions and recreate the target shadow on a miniature stage—with as few moves as you can.">
+    <style>
+        :root {
+            --curtain: #5c1f28;
+            --curtain-deep: #3a1218;
+            --stage: #2a1810;
+            --stage-2: #3d2a1c;
+            --paper: #f5ead8;
+            --paper-2: #e8d9c0;
+            --ink: #1f1610;
+            --muted: #6b5d4f;
+            --soft: rgba(245, 234, 216, 0.82);
+            --spot: #ffb84d;
+            --spot-glow: rgba(255, 184, 77, 0.35);
+            --shadow-ink: #1a120c;
+            --line: rgba(245, 234, 216, 0.16);
+            --shadow: 0 28px 56px rgba(0, 0, 0, 0.38);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+            color: var(--paper);
+            background: var(--stage);
+            min-height: 100vh;
+            background-image:
+                radial-gradient(ellipse 55% 45% at 50% -5%, var(--spot-glow), transparent 55%),
+                radial-gradient(ellipse 40% 30% at 100% 20%, rgba(92, 31, 40, 0.45), transparent 58%),
+                radial-gradient(ellipse 50% 40% at 0% 80%, rgba(61, 42, 28, 0.9), transparent 60%);
+        }
+
+        a { color: inherit; }
+
+        a:focus-visible, .btn:focus-visible {
+            outline: 2px solid var(--spot);
+            outline-offset: 3px;
+        }
+
+        .wrap {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 28px 22px 72px;
+        }
+
+        .bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 42px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .brand svg { width: 48px; height: 48px; flex: none; }
+
+        .brand strong {
+            display: block;
+            font-family: "Avenir Next Condensed", "Avenir Next", Futura, sans-serif;
+            font-weight: 700;
+            font-size: clamp(1rem, 2.2vw, 1.32rem);
+            letter-spacing: 0.02em;
+            line-height: 1.05;
+        }
+
+        .brand small {
+            display: block;
+            margin-top: 2px;
+            color: var(--spot);
+            font-family: "Avenir Next", sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+        .bar nav {
+            display: flex;
+            gap: 22px;
+            font-family: "Avenir Next", sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .bar nav a { text-decoration: none; color: rgba(245, 234, 216, 0.65); }
+        .bar nav a:hover { color: var(--paper); }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 36px;
+            align-items: center;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--spot);
+            font-family: "Avenir Next", sans-serif;
+            font-size: 0.74rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .eyebrow i {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 30%, #fff6e0, var(--spot));
+            box-shadow: 0 0 18px var(--spot-glow);
+            display: inline-block;
+        }
+
+        h1 {
+            font-family: "Avenir Next Condensed", "Avenir Next", Futura, sans-serif;
+            font-weight: 700;
+            font-size: clamp(2.6rem, 5.8vw, 4.6rem);
+            line-height: 0.92;
+            letter-spacing: -0.02em;
+            margin-bottom: 18px;
+        }
+
+        h1 span { display: block; color: var(--paper-2); font-weight: 600; font-size: 0.92em; margin-top: 0.06em; }
+
+        .lede {
+            color: var(--soft);
+            font-size: 1.1rem;
+            line-height: 1.72;
+            max-width: 36rem;
+            margin-bottom: 18px;
+        }
+
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 26px;
+        }
+
+        .chips span {
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            padding: 6px 12px;
+            font-family: "Avenir Next", sans-serif;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: rgba(245, 234, 216, 0.92);
+            background: rgba(61, 42, 28, 0.5);
+        }
+
+        .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-family: "Avenir Next", sans-serif;
+            font-weight: 700;
+            border-radius: 6px;
+            padding: 13px 20px;
+            transition: transform 0.16s ease, box-shadow 0.16s ease;
+        }
+
+        .btn:hover { transform: translateY(-2px); }
+
+        .btn-go {
+            background: linear-gradient(180deg, #ffd98a, var(--spot));
+            color: var(--ink);
+            box-shadow: 0 8px 24px rgba(255, 184, 77, 0.25);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--paper);
+            border: 1.5px solid rgba(245, 234, 216, 0.35);
+        }
+
+        .proscenium {
+            background: linear-gradient(180deg, var(--curtain-deep), var(--curtain) 12%, var(--stage-2));
+            border: 1px solid var(--line);
+            border-radius: 8px 8px 4px 4px;
+            box-shadow: var(--shadow);
+            padding: 12px 12px 14px;
+            position: relative;
+        }
+
+        .proscenium::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 8%;
+            right: 8%;
+            height: 6px;
+            background: repeating-linear-gradient(90deg, var(--curtain) 0, var(--curtain) 8px, #7a2832 8px, #7a2832 16px);
+            border-radius: 0 0 2px 2px;
+        }
+
+        .proscenium svg { width: 100%; height: auto; display: block; border-radius: 2px; }
+
+        .layer-a, .layer-b, .layer-c {
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+
+        .layer-a { animation: dial-a 4s ease-in-out infinite alternate; }
+        .layer-b { animation: dial-b 5.2s ease-in-out infinite alternate; }
+        .layer-c { animation: dial-c 3.8s ease-in-out infinite alternate; }
+
+        @keyframes dial-a {
+            from { transform: translateX(-4px) rotate(-2deg); }
+            to { transform: translateX(6px) rotate(3deg); }
+        }
+
+        @keyframes dial-b {
+            from { transform: translateY(2px); }
+            to { transform: translateY(-8px); }
+        }
+
+        @keyframes dial-c {
+            from { transform: scale(0.98); opacity: 0.85; }
+            to { transform: scale(1.02); opacity: 1; }
+        }
+
+        .readout {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .readout span {
+            background: rgba(26, 18, 12, 0.55);
+            border-radius: 4px;
+            padding: 8px 10px;
+            font-family: "Avenir Next", sans-serif;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            text-align: center;
+            color: rgba(245, 234, 216, 0.85);
+        }
+
+        .readout .dial { color: var(--spot); }
+        .readout .target { color: #c9a882; }
+        .readout .star { color: #e8c4a0; }
+
+        .cards {
+            margin-top: 28px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .card {
+            border-radius: 6px;
+            padding: 22px 22px 24px;
+            min-height: 100%;
+        }
+
+        .card.paper {
+            background:
+                linear-gradient(135deg, rgba(255, 184, 77, 0.12), transparent 50%),
+                var(--paper);
+            color: var(--ink);
+        }
+
+        .card.stage {
+            background: var(--stage-2);
+            border: 1px solid var(--line);
+            color: var(--paper);
+        }
+
+        .card svg { width: 44px; height: 44px; display: block; margin-bottom: 14px; }
+
+        .card h2 {
+            font-family: "Avenir Next Condensed", sans-serif;
+            font-size: 1.85rem;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+
+        .card p { line-height: 1.62; font-size: 1.02rem; }
+        .card.paper p { color: var(--muted); }
+        .card.stage p { color: var(--soft); }
+
+        .acts { margin-top: 68px; }
+
+        .acts h2, .features h2 {
+            font-family: "Avenir Next Condensed", sans-serif;
+            font-weight: 700;
+            font-size: clamp(2rem, 4vw, 3rem);
+            letter-spacing: -0.02em;
+            line-height: 0.98;
+        }
+
+        .acts .intro, .features .intro {
+            max-width: 40rem;
+            margin-top: 12px;
+            color: var(--soft);
+            line-height: 1.68;
+            font-size: 1.05rem;
+        }
+
+        .steps {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-top: 26px;
+        }
+
+        .steps li {
+            background: rgba(245, 234, 216, 0.06);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 18px 16px 20px;
+            border-top: 3px solid var(--curtain);
+        }
+
+        .steps b {
+            display: block;
+            font-family: "Avenir Next", sans-serif;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            color: var(--spot);
+            margin-bottom: 10px;
+        }
+
+        .steps h3 {
+            font-family: "Avenir Next Condensed", sans-serif;
+            font-size: 1.08rem;
+            margin-bottom: 6px;
+        }
+
+        .steps p { color: var(--soft); line-height: 1.52; font-size: 0.94rem; }
+
+        .features { margin-top: 68px; }
+
+        .grid {
+            margin-top: 22px;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 14px;
+        }
+
+        .panel, .spec {
+            border-radius: 6px;
+            padding: 22px;
+        }
+
+        .panel {
+            background: var(--paper);
+            color: var(--ink);
+        }
+
+        .panel h3, .spec h3 {
+            font-family: "Avenir Next Condensed", sans-serif;
+            font-size: 1.65rem;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+
+        .panel p, .spec p { color: var(--muted); line-height: 1.6; }
+        .spec p { color: var(--soft); }
+
+        .panel ul {
+            margin-top: 14px;
+            display: grid;
+            gap: 10px;
+            list-style: none;
+        }
+
+        .panel li {
+            background: var(--paper-2);
+            border-radius: 4px;
+            padding: 12px 14px;
+            line-height: 1.5;
+            font-size: 0.98rem;
+        }
+
+        .panel li strong { display: block; margin-bottom: 2px; font-family: "Avenir Next", sans-serif; }
+
+        .spec {
+            background: var(--stage-2);
+            border: 1px solid var(--line);
+            color: var(--paper);
+        }
+
+        .spec dl {
+            margin-top: 16px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .spec div {
+            background: rgba(26, 18, 12, 0.4);
+            border-radius: 4px;
+            padding: 10px 12px;
+        }
+
+        .spec dt {
+            color: var(--spot);
+            font-family: "Avenir Next", sans-serif;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .spec dd { font-family: "Avenir Next", sans-serif; font-weight: 700; font-size: 0.95rem; }
+
+        .curtain-cta {
+            margin-top: 28px;
+            background: linear-gradient(105deg, var(--curtain-deep), var(--curtain) 40%, #8a3540);
+            border-radius: 6px;
+            padding: 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .curtain-cta p { line-height: 1.6; max-width: 40rem; color: rgba(245, 234, 216, 0.95); font-size: 1.02rem; }
+        .curtain-cta .btn-go { background: var(--paper); color: var(--ink); }
+
+        footer {
+            margin-top: 26px;
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            color: rgba(245, 234, 216, 0.58);
+            font-family: "Avenir Next", sans-serif;
+            font-size: 0.86rem;
+        }
+
+        footer a { color: var(--spot); text-decoration: none; font-weight: 700; }
+        footer a:hover { text-decoration: underline; }
+
+        @media (max-width: 900px) {
+            .hero, .cards, .grid, .steps { grid-template-columns: 1fr; }
+            .hero > *, .cards > *, .grid > * { min-width: 0; }
+            .bar { align-items: flex-start; flex-wrap: wrap; }
+            .bar nav { width: 100%; flex-wrap: wrap; }
+            .actions { flex-direction: column; align-items: stretch; }
+            .actions .btn, .curtain-cta .btn { width: 100%; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .layer-a, .layer-b, .layer-c { animation: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <header class="bar">
+            <a class="brand" href="index.html">
+                <svg viewBox="0 0 48 48" aria-hidden="true">
+                    <rect width="48" height="48" rx="6" fill="#3d2a1c"/>
+                    <path fill="#5c1f28" d="M4 8h40v6H4z"/>
+                    <rect x="8" y="16" width="32" height="22" rx="2" fill="#f5ead8"/>
+                    <ellipse cx="24" cy="14" rx="10" ry="4" fill="#ffb84d" opacity="0.5"/>
+                    <path fill="#1a120c" opacity="0.35" d="M14 28c4-6 8-8 10-8s6 2 10 8H14z"/>
+                    <circle cx="38" cy="34" r="5" fill="#e8d9c0" stroke="#6b5d4f" stroke-width="1.2"/>
+                    <path stroke="#6b5d4f" stroke-width="1" d="M38 31v6M35 34h6"/>
+                </svg>
+                <span>
+                    <strong>PaperTheater</strong>
+                    <small>Cycle &amp; match</small>
+                </span>
+            </a>
+            <nav>
+                <a href="#play">How to play</a>
+                <a href="#features">Features</a>
+                <a href="privacy.html">Privacy</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="hero">
+                <div>
+                    <p class="eyebrow"><i></i> Casual · Free · Designed for iPad</p>
+                    <h1>Turn the dials.<span>Match the shadow.</span></h1>
+                    <p class="lede">
+                        Paper Theater is a miniature stage of paper-cutout layers. Each layer has a dial that cycles through a small set of positions. Tap to advance a layer one step, watch how its shadow falls on the backdrop, and line everything up until the silhouette matches the target—using as few dial turns as you can.
+                    </p>
+                    <div class="chips">
+                        <span>Layered shadow puzzles</span>
+                        <span>One-tap dials</span>
+                        <span>No timers</span>
+                        <span>Three acts</span>
+                        <span>Age 4+</span>
+                    </div>
+                    <div class="actions">
+                        <a class="btn btn-go" href="https://apps.apple.com/us/app/papertheater/id6817269614?uo=4" target="_blank" rel="noopener noreferrer">Download on the App Store</a>
+                        <a class="btn btn-ghost" href="privacy.html">Privacy notice</a>
+                    </div>
+                </div>
+                <div class="proscenium">
+                    <svg viewBox="0 0 300 480" role="img" aria-label="Miniature paper theater with layered cutouts casting a combined shadow under a warm spotlight">
+                        <defs>
+                            <radialGradient id="spot" cx="50%" cy="8%" r="65%">
+                                <stop offset="0" stop-color="#fff4dc"/>
+                                <stop offset="0.35" stop-color="#ffb84d" stop-opacity="0.45"/>
+                                <stop offset="1" stop-color="#2a1810"/>
+                            </radialGradient>
+                            <linearGradient id="backdrop" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0" stop-color="#e8d9c0"/>
+                                <stop offset="1" stop-color="#c9a882"/>
+                            </linearGradient>
+                        </defs>
+                        <rect width="300" height="480" fill="url(#spot)"/>
+                        <path fill="#5c1f28" d="M20 24h260v28c-20 8-40 12-60 12s-40-4-70-12-40-12-70-12-40 4-60 12V24z"/>
+                        <rect x="36" y="72" width="228" height="320" rx="4" fill="url(#backdrop)"/>
+                        <ellipse cx="150" cy="380" rx="72" ry="18" fill="#1a120c" opacity="0.22"/>
+                        <g class="layer-c" opacity="0.9">
+                            <path fill="#1a120c" opacity="0.28" d="M90 300 Q150 260 210 300 L210 340 Q150 320 90 340Z"/>
+                        </g>
+                        <g class="layer-b">
+                            <path fill="#d4b896" stroke="#6b5d4f" stroke-width="1.5" d="M110 180 L190 160 L185 240 L115 250Z"/>
+                            <path fill="#1a120c" opacity="0.2" d="M115 250 L185 240 L180 320 L120 330Z"/>
+                        </g>
+                        <g class="layer-a">
+                            <path fill="#f5ead8" stroke="#8a7358" stroke-width="1.5" d="M130 120 L170 115 L175 200 L125 205Z"/>
+                            <circle cx="175" cy="210" r="12" fill="#e8d9c0" stroke="#6b5d4f" stroke-width="1.5"/>
+                            <path stroke="#6b5d4f" stroke-width="1.2" d="M175 204v12M169 210h12"/>
+                        </g>
+                        <path fill="#1a120c" opacity="0.4" d="M100 340 Q150 300 200 340 L200 360 Q150 330 100 360Z"/>
+                        <rect x="120" y="400" width="60" height="8" rx="2" fill="#3d2a1c"/>
+                        <text x="150" y="430" text-anchor="middle" fill="#f5ead8" font-family="sans-serif" font-size="11" font-weight="700" opacity="0.7">TARGET SILHOUETTE</text>
+                    </svg>
+                    <div class="readout" aria-hidden="true">
+                        <span class="dial">Dial turn</span>
+                        <span class="target">Target shadow</span>
+                        <span class="star">Star rating</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="cards" aria-label="Core mechanics">
+                <article class="card paper">
+                    <svg viewBox="0 0 48 48" aria-hidden="true">
+                        <rect width="48" height="48" rx="6" fill="#e8d9c0"/>
+                        <circle cx="34" cy="34" r="8" fill="#f5ead8" stroke="#6b5d4f" stroke-width="1.5"/>
+                        <path stroke="#6b5d4f" stroke-width="1.2" d="M34 30v8M30 34h8"/>
+                        <path fill="#f5ead8" stroke="#8a7358" d="M10 14 L28 10 L26 32 L8 34Z"/>
+                    </svg>
+                    <h2>Cycle each layer</h2>
+                    <p>Every paper layer owns a fixed list of states—depth, tilt, or placement. One tap on that layer’s dial moves it forward one notch. There is no free-form drag; the puzzle is choosing the right sequence of cycles.</p>
+                </article>
+                <article class="card stage">
+                    <svg viewBox="0 0 48 48" aria-hidden="true">
+                        <rect width="48" height="48" rx="6" fill="#3d2a1c"/>
+                        <rect x="10" y="14" width="28" height="20" rx="2" fill="#e8d9c0"/>
+                        <path fill="#1a120c" opacity="0.35" d="M14 28h20v6H14z"/>
+                        <path fill="#f5ead8" d="M18 18h8v14h-8z" opacity="0.9"/>
+                        <path fill="#1a120c" opacity="0.5" d="M26 18h6v10h-6z"/>
+                    </svg>
+                    <h2>Order matters</h2>
+                    <p>Layers stack in depth. A shape in front can hide or reveal part of the shadow from a layer behind it. The order you turn the dials can matter as much as the final positions you pick.</p>
+                </article>
+            </section>
+
+            <section class="acts" id="play">
+                <h2>Four moves behind the curtain.</h2>
+                <p class="intro">No clock counts down. You read the stage, advance dials, and compare the combined shadow to the target silhouette on the backdrop.</p>
+                <ol class="steps">
+                    <li>
+                        <b>Scene 01</b>
+                        <h3>Study the target</h3>
+                        <p>The backdrop shows the shadow you need. Every puzzle has one clear silhouette to recreate.</p>
+                    </li>
+                    <li>
+                        <b>Scene 02</b>
+                        <h3>Pick a layer</h3>
+                        <p>Each cutout sits at its own depth. Tap the dial attached to the layer you want to change.</p>
+                    </li>
+                    <li>
+                        <b>Scene 03</b>
+                        <h3>Advance one step</h3>
+                        <p>One tap cycles that layer to its next fixed state. Overlaps update immediately on the backdrop.</p>
+                    </li>
+                    <li>
+                        <b>Scene 04</b>
+                        <h3>Earn your stars</h3>
+                        <p>When the shadow matches, the scene clears. Fewer total dial turns mean a stronger star rating.</p>
+                    </li>
+                </ol>
+            </section>
+
+            <section class="features" id="features">
+                <h2>Handmade paper, warm spotlight.</h2>
+                <p class="intro">PaperTheater spreads its puzzles across three acts—from gentle two-layer scenes to overlapping shadow riddles—and keeps lifetime tallies on the device.</p>
+                <div class="grid">
+                    <article class="panel">
+                        <h3>What you will find</h3>
+                        <p>The listing highlights art direction and pacing built around the miniature proscenium.</p>
+                        <ul>
+                            <li>
+                                <strong>Three acts of stages</strong>
+                                Scenes grow from simple two-layer setups to puzzles where shadows stack and hide one another.
+                            </li>
+                            <li>
+                                <strong>Star ratings by efficiency</strong>
+                                Match the target using as few dial turns as possible to climb toward a perfect arrangement.
+                            </li>
+                            <li>
+                                <strong>Lifetime stats</strong>
+                                Track Scenes Recreated, Perfect Arrangements, and Levels Cleared across your play history.
+                            </li>
+                            <li>
+                                <strong>Relaxed controls</strong>
+                                One tap per dial advance—no timers pressuring each scene.
+                            </li>
+                        </ul>
+                    </article>
+                    <article class="spec" id="devices">
+                        <h3>On Apple devices</h3>
+                        <p>Designed for iPad. Requires iOS 15 or later, offered in English, rated 4+, and free to download. The listing also names iPhone, iPod touch, Mac with Apple silicon, and Apple Vision. The Mac build is marked not verified for macOS.</p>
+                        <dl>
+                            <div>
+                                <dt>Category</dt>
+                                <dd>Casual</dd>
+                            </div>
+                            <div>
+                                <dt>Price</dt>
+                                <dd>Free</dd>
+                            </div>
+                            <div>
+                                <dt>Size</dt>
+                                <dd>101 MB</dd>
+                            </div>
+                            <div>
+                                <dt>Language</dt>
+                                <dd>English</dd>
+                            </div>
+                            <div>
+                                <dt>Age</dt>
+                                <dd>4+</dd>
+                            </div>
+                            <div>
+                                <dt>System</dt>
+                                <dd>iOS 15+</dd>
+                            </div>
+                        </dl>
+                    </article>
+                </div>
+            </section>
+
+            <section class="curtain-cta">
+                <p><strong>Product support lives on the store listing.</strong> Questions about PaperTheater—including privacy—are handled through the options on its App Store page.</p>
+                <a class="btn btn-go" href="https://apps.apple.com/us/app/papertheater/id6817269614?uo=4" target="_blank" rel="noopener noreferrer">Download on the App Store</a>
+            </section>
+        </main>
+
+        <footer>
+            <p>© 2026 PaperTheater. A casual shadow-matching puzzle for iPhone and iPad.</p>
+            <p><a href="privacy.html">Privacy</a> · <a href="https://apps.apple.com/us/app/papertheater/id6817269614?uo=4" target="_blank" rel="noopener noreferrer">App Store</a></p>
+        </footer>
+    </div>
+</body>
+</html>
